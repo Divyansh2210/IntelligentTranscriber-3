@@ -10,8 +10,11 @@ class QuickAskAI {
   }
 
   init() {
+    console.log('QuickAsk AI content script initialized');
+    
     // Listen for messages from service worker
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      console.log('Content script received message:', request);
       if (request.action === 'showInput') {
         this.toggleInput();
       }
@@ -197,19 +200,29 @@ class QuickAskAI {
     this.isLoading = true;
     this.showLoading();
 
+    console.log('Submitting question:', question, 'for URL:', window.location.href);
+
     try {
       // Get current URL
       const currentUrl = window.location.href;
 
-      // Send message to service worker
+      // Send message to service worker with timeout handling
       const response = await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Request timeout - service worker not responding'));
+        }, 30000); // 30 second timeout
+
         chrome.runtime.sendMessage({
           action: 'askQuestion',
           question: question,
           url: currentUrl
         }, (response) => {
+          clearTimeout(timeout);
+          
           if (chrome.runtime.lastError) {
             reject(new Error(chrome.runtime.lastError.message));
+          } else if (!response) {
+            reject(new Error('No response from service worker'));
           } else {
             resolve(response);
           }

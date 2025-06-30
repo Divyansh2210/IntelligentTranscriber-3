@@ -2,6 +2,9 @@
 const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
+// Service worker startup log
+console.log('QuickAsk AI service worker loaded');
+
 // Listen for keyboard command
 chrome.commands.onCommand.addListener((command) => {
   if (command === 'open-quickask') {
@@ -16,17 +19,25 @@ chrome.commands.onCommand.addListener((command) => {
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('Service worker received message:', request);
+  
   if (request.action === 'askQuestion') {
     handleQuestionRequest(request, sender, sendResponse);
     return true; // Keep message channel open for async response
   }
+  
+  // Return false for unknown actions
+  return false;
 });
 
 async function handleQuestionRequest(request, sender, sendResponse) {
+  console.log('handleQuestionRequest called with:', request);
+  
   try {
     const { question, url } = request;
     
     if (!question || !url) {
+      console.log('Missing question or URL');
       sendResponse({ 
         success: false, 
         error: 'Missing question or URL' 
@@ -36,12 +47,15 @@ async function handleQuestionRequest(request, sender, sendResponse) {
 
     // Check if API key is available
     if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+      console.log('API key not configured');
       sendResponse({ 
         success: false, 
         error: 'API key not configured. Please replace YOUR_GEMINI_API_KEY_HERE with your actual Gemini API key in service-worker.js.' 
       });
       return;
     }
+
+    console.log('Making API request to Gemini...');
 
     // Create the prompt that asks Gemini to browse the webpage
     const prompt = `You are QuickAsk AI, an assistant that answers questions about webpages. I need you to browse the webpage at the URL provided below and then answer the user's question based on the actual content of that webpage.
@@ -83,11 +97,13 @@ Instructions:
     
     if (data.candidates && data.candidates[0] && data.candidates[0].content) {
       const answer = data.candidates[0].content.parts[0].text;
+      console.log('Gemini API response received successfully');
       sendResponse({ 
         success: true, 
         answer: answer 
       });
     } else {
+      console.log('Invalid response format from Gemini API:', data);
       throw new Error('Invalid response format from Gemini API');
     }
 
@@ -103,6 +119,7 @@ Instructions:
       errorMessage += error.message;
     }
 
+    console.log('Sending error response:', errorMessage);
     sendResponse({ 
       success: false, 
       error: errorMessage 
