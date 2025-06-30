@@ -11,7 +11,9 @@ chrome.commands.onCommand.addListener((command) => {
     // Get the active tab and inject the UI
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'showInput' });
+        ensureContentScript(tabs[0].id, () => {
+          chrome.tabs.sendMessage(tabs[0].id, { action: 'showInput' });
+        });
       }
     });
   }
@@ -67,8 +69,8 @@ User Question: ${question}
 Instructions:
 1. First, browse and read the content of the webpage at the provided URL
 2. Then answer the user's question based on the actual content you found on that page
-3. If you cannot access the webpage or find the specific information, let the user know what you were unable to access
-4. Provide a helpful and accurate answer based on the real webpage content`;
+3. If you cannot access the webpage or find the specific information to answer the question, let the user know what you could not find and ask them if they can look for the information without referring to the webpage.
+4. Provide a helpful and accurate answer based on the real webpage content.`;
 
     const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
       method: 'POST',
@@ -131,3 +133,21 @@ Instructions:
 chrome.action.onClicked.addListener((tab) => {
   chrome.tabs.sendMessage(tab.id, { action: 'showInput' });
 });
+
+function ensureContentScript(tabId, callback) {
+  chrome.tabs.sendMessage(tabId, { ping: true }, (response) => {
+    if (chrome.runtime.lastError) {
+      // Content script not present, inject it
+      chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        files: ['content-script.js']
+      }, () => {
+        // After injection, call the callback
+        callback();
+      });
+    } else {
+      // Content script is present
+      callback();
+    }
+  });
+}

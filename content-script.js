@@ -176,12 +176,16 @@ class QuickAskAI {
   }
 
   positionContainer() {
-    // Position at top center of viewport
+    // Position at bottom half, center horizontally, with space below
     const rect = this.container.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
-    
+    const viewportHeight = window.innerHeight;
+    const containerHeight = rect.height || 0;
+    // Place it at 65% of the viewport height, but at least 40px from the bottom
+    let top = Math.min(viewportHeight * 0.65, viewportHeight - containerHeight - 40);
+    if (top < 0) top = 40; // fallback for very small screens
     this.container.style.left = `${Math.max(10, (viewportWidth - 600) / 2)}px`;
-    this.container.style.top = '20px';
+    this.container.style.top = `${top}px`;
   }
 
   async submitQuestion() {
