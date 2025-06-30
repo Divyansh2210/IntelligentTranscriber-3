@@ -1,5 +1,5 @@
-// Get Gemini API key from environment variables
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// Hardcoded Gemini API key - replace with your actual key
+const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 // Listen for keyboard command
@@ -35,10 +35,10 @@ async function handleQuestionRequest(request, sender, sendResponse) {
     }
 
     // Check if API key is available
-    if (!GEMINI_API_KEY) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
       sendResponse({ 
         success: false, 
-        error: 'API key not configured. Please check the extension setup.' 
+        error: 'API key not configured. Please replace YOUR_GEMINI_API_KEY_HERE with your actual Gemini API key in service-worker.js.' 
       });
       return;
     }

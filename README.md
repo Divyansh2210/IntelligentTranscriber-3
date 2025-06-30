@@ -30,8 +30,10 @@ A powerful Chrome extension that lets you ask questions about any webpage using 
    - The extension should appear in your extensions list
 
 4. **Set Up API Key**
-   - The extension uses your Gemini API key from environment variables
-   - Make sure `GEMINI_API_KEY` is properly configured
+   - Get your Gemini API key from https://makersuite.google.com/app/apikey
+   - Open `service-worker.js` in a text editor
+   - Replace `YOUR_GEMINI_API_KEY_HERE` with your actual API key
+   - Reload the extension in Chrome
 
 ### Method 2: Chrome Web Store (Future)
 *Extension will be available on Chrome Web Store after review process*

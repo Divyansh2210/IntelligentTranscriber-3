@@ -57,7 +57,7 @@ QuickAsk AI is a minimal Chrome extension that enables users to ask questions ab
 
 ### API Integration
 - **Endpoint**: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`
-- **Authentication**: API key-based (from environment variables)
+- **Authentication**: API key-based (hardcoded in service-worker.js)
 - **Model**: Gemini 2.5 Flash for optimal speed/performance balance
 - **Web Browsing**: Leverages Gemini's built-in web browsing capabilities to access webpage content
 
@@ -86,6 +86,7 @@ Changelog:
 - June 30, 2025. Enhanced UI with action buttons (copy answer, follow-up questions), improved loading states
 - June 30, 2025. Added quick suggestion buttons for common questions
 - June 30, 2025. Improved error handling and user feedback
+- June 30, 2025. Fixed Chrome extension service worker issues - removed process.env dependency and hardcoded API key
 
 ## User Preferences
 
