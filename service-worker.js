@@ -1,6 +1,6 @@
 // Hardcoded Gemini API key - replace with your actual key
-const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+const GEMINI_API_KEY = 'AIzaSyCKiXEolpOzzgqqkWQQO3fW3LKTluPDos0';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 // Service worker startup log
 console.log('QuickAsk AI service worker loaded');
@@ -46,7 +46,7 @@ async function handleQuestionRequest(request, sender, sendResponse) {
     }
 
     // Check if API key is available
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'your_api_key_here') {
       console.log('API key not configured');
       sendResponse({ 
         success: false, 
@@ -83,7 +83,7 @@ Instructions:
         }],
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 1024,
+          maxOutputTokens: 20000,
         }
       })
     });
