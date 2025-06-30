@@ -1,0 +1,135 @@
+Certainly! To reframe the PRD as an MVP (Minimum Viable Product), we need to focus on the absolute core functionality that delivers value, while deferring or omitting non-essential features, advanced options, and polish. The MVP should allow users to get contextual answers from Gemini on any webpage via a Chrome extension, but with the simplest possible implementation.
+
+Below is a reframed PRD for the MVP version of "QuickAsk AI":
+
+---
+
+# 📄 Product Requirements Document (MVP)  
+## QuickAsk AI — Minimal, Page-Aware Q&A for Chrome (Gemini-powered)
+
+---
+
+### 1 · Purpose (MVP)
+Enable users to instantly ask questions about the current webpage and receive Gemini-powered answers, with minimal UI and setup, via a Chrome extension.
+
+---
+
+### 2 · Scope (MVP)
+
+| ✅ In scope (MVP)                                                      | ❌ Out of scope (MVP)                |
+|------------------------------------------------------------------------|--------------------------------------|
+| Chrome MV3 extension                                                   | Firefox/Edge support                 |
+| Gemini Pro (user key entered in options)                               | Server-side key storage              |
+| Page context: `document.body.innerText` only                           | Raw HTML fetch, dual-source context  |
+| Simple keyboard shortcut to open input bar                             | Customizable shortcuts               |
+| Minimal input bar for question entry                                   | Headless API, programmatic access    |
+| Answer shown in a dismissible bubble                                   | Persistent chat log, advanced UI     |
+| Manual API key entry in options page                                   | Blacklist, dark/light mode, advanced config |
+| Basic error handling (invalid key, offline)                            | Full error logging, JSON logs        |
+
+---
+
+### 3 · Success Metrics (MVP)
+
+| Metric                     | Target                                  |
+|----------------------------|-----------------------------------------|
+| Shortcut-to-answer latency | ≤ 3 s (excluding Gemini latency)        |
+| UI footprint               | Input bar ≤ 600 × 48 px; bubble ≤ 40% viewport |
+| Error surfacing            | User sees a toast or alert on error     |
+
+---
+
+### 4 · Functional Requirements (MVP)
+
+| ID  | Requirement                                                                 | Acceptance Criteria                        |
+|-----|-----------------------------------------------------------------------------|--------------------------------------------|
+| F-1 | **Global Shortcut** – default `Cmd/Ctrl + Shift + Space`.                   | Input bar appears within 200 ms.           |
+| F-2 | **Context Collection** – use `document.body.innerText` as page context.     | Full text sent to Gemini; length logged.   |
+| F-3 | **Prompt Template** – see §7.                                               | Prompt matches template with variables.    |
+| F-4 | **Gemini Pro Call** – POST to Gemini API with user key.                     | 200 OK; answer extracted and shown.        |
+| F-5 | **Answer Delivery** – show answer in a bubble below input; dismissible.     | Bubble appears and can be closed.          |
+| F-6 | **Config Panel** – user can enter Gemini API key.                           | Key is saved and used for requests.        |
+| F-7 | **Basic Error Handling** – show toast/alert for errors (invalid key, offline). | User sees error message.                |
+
+---
+
+### 5 · Non-Functional Requirements (MVP)
+
+| Aspect        | Requirement                                  |
+|---------------|----------------------------------------------|
+| Performance   | Context extraction + Gemini call ≤ 3 s.      |
+| Security      | Key stored in `chrome.storage.local`.        |
+| Accessibility | Input bar and bubble have `aria-label`s.     |
+| Code Quality  | JS/TS with ESLint + Prettier.                |
+
+---
+
+### 6 · Architecture (MVP)
+
+```text
+┌───────────────┐      sendMessage       ┌────────────────┐
+│Content Script │◄──────────────────────►│Service Worker  │
+│• UI inject    │                       │• Gemini call   │
+│• Context scrape│───reply──────────────►│• Error handling│
+└───────────────┘                       └────────────────┘
+```
+
+---
+
+### 7 · Prompt (verbatim, MVP)
+
+```text
+System:
+You are QuickAsk AI, an assistant that answers USING ONLY the information
+inside <PAGE_CONTEXT>. If the context lacks the answer, reply exactly:
+“I’m not sure from this page.”
+
+User Question:
+«{q}»
+
+<PAGE_CONTEXT>
+<<<
+{page_context}
+>>>
+```
+
+---
+
+### 8 · Example User Flow (MVP)
+
+1. User installs extension and enters Gemini API key in options.
+2. User presses shortcut (`Cmd/Ctrl + Shift + Space`).
+3. Input bar appears; user types a question.
+4. Extension collects `document.body.innerText`, sends to Gemini.
+5. Answer appears in a bubble below the input bar.
+6. User can dismiss the bubble.
+
+---
+
+### 9 · Milestones (MVP)
+
+| Day | Deliverable                                  |
+|-----|----------------------------------------------|
+| 0–2 | Context extraction + Gemini call (no UI)     |
+| 3–4 | Input bar UI + answer bubble                 |
+| 5   | Options page for API key                     |
+| 6   | Basic error handling                         |
+| 7   | Code cleanup, README, packaging              |
+
+---
+
+### 10 · Risks & Mitigations (MVP)
+
+| Risk                             | Mitigation                                  |
+|----------------------------------|---------------------------------------------|
+| Invalid API key                  | Show clear error, allow re-entry            |
+| Gemini API latency               | Show loading indicator                      |
+| Large pages slow context         | Limit context length if needed              |
+
+---
+
+*End of MVP PRD*
+
+---
+
+This MVP PRD focuses on the essential user flow: install, enter key, ask question, get answer. All advanced features (headless API, dual-source context, automation, advanced config, clipboard, etc.) are deferred for post-MVP. If you want this as a file or in a specific format, let me know!
