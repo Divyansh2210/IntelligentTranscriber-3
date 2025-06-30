@@ -83,6 +83,9 @@ Changelog:
 - June 30, 2025. Initial setup
 - June 30, 2025. Updated to use URL-based approach - Gemini AI now browses webpages directly instead of extracting DOM content
 - June 30, 2025. Removed storage permissions and hardcoded API key approach as requested
+- June 30, 2025. Enhanced UI with action buttons (copy answer, follow-up questions), improved loading states
+- June 30, 2025. Added quick suggestion buttons for common questions
+- June 30, 2025. Improved error handling and user feedback
 
 ## User Preferences
 

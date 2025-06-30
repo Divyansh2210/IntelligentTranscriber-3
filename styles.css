@@ -14,16 +14,59 @@
 
 #quickask-input-bar {
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   background: #ffffff !important;
   border: 2px solid #e1e5e9 !important;
   border-radius: 12px !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
   padding: 8px !important;
   max-width: 600px !important;
-  height: 48px !important;
+  min-height: 48px !important;
   box-sizing: border-box !important;
   backdrop-filter: blur(10px) !important;
+}
+
+.quickask-input-wrapper {
+  flex: 1 !important;
+  position: relative !important;
+}
+
+.quickask-quick-suggestions {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: #ffffff !important;
+  border: 1px solid #e1e5e9 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 4px !important;
+  padding: 8px !important;
+  z-index: 10 !important;
+}
+
+.quickask-suggestion-btn {
+  display: block !important;
+  width: 100% !important;
+  padding: 8px 12px !important;
+  margin-bottom: 4px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  color: #666666 !important;
+  text-align: left !important;
+  transition: all 0.2s ease !important;
+}
+
+.quickask-suggestion-btn:last-child {
+  margin-bottom: 0 !important;
+}
+
+.quickask-suggestion-btn:hover {
+  background: #f5f5f5 !important;
+  color: #333333 !important;
 }
 
 #quickask-input {
@@ -40,6 +83,15 @@
 
 #quickask-input::placeholder {
   color: #999999 !important;
+}
+
+#quickask-input:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+#quickask-input:disabled::placeholder {
+  color: #666666 !important;
 }
 
 #quickask-submit,
@@ -100,8 +152,37 @@
   line-height: 1.5 !important;
   white-space: pre-wrap !important;
   word-wrap: break-word !important;
-  margin: 0 !important;
-  padding-right: 32px !important;
+  margin: 0 0 12px 0 !important;
+  padding-right: 8px !important;
+}
+
+.quickask-answer-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  align-items: center !important;
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid #f0f0f0 !important;
+}
+
+.quickask-action-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  color: #666666 !important;
+  transition: all 0.2s ease !important;
+}
+
+.quickask-action-btn:hover {
+  background: #f5f5f5 !important;
+  color: #333333 !important;
 }
 
 .quickask-answer-close {
@@ -190,6 +271,33 @@
   }
   
   .quickask-answer-close:hover {
+    background: #4a5568 !important;
+    color: #e2e8f0 !important;
+  }
+  
+  .quickask-answer-actions {
+    border-top-color: #4a5568 !important;
+  }
+  
+  .quickask-action-btn {
+    color: #a0aec0 !important;
+  }
+  
+  .quickask-action-btn:hover {
+    background: #4a5568 !important;
+    color: #e2e8f0 !important;
+  }
+  
+  .quickask-quick-suggestions {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+  }
+  
+  .quickask-suggestion-btn {
+    color: #a0aec0 !important;
+  }
+  
+  .quickask-suggestion-btn:hover {
     background: #4a5568 !important;
     color: #e2e8f0 !important;
   }

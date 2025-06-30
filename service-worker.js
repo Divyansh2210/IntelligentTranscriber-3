@@ -34,6 +34,15 @@ async function handleQuestionRequest(request, sender, sendResponse) {
       return;
     }
 
+    // Check if API key is available
+    if (!GEMINI_API_KEY) {
+      sendResponse({ 
+        success: false, 
+        error: 'API key not configured. Please check the extension setup.' 
+      });
+      return;
+    }
+
     // Create the prompt that asks Gemini to browse the webpage
     const prompt = `You are QuickAsk AI, an assistant that answers questions about webpages. I need you to browse the webpage at the URL provided below and then answer the user's question based on the actual content of that webpage.
 
