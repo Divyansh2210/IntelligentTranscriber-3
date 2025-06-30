@@ -1,0 +1,240 @@
+/* QuickAsk AI Styles */
+#quickask-container {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  max-width: 600px !important;
+  width: calc(100vw - 40px) !important;
+}
+
+#quickask-input-bar {
+  display: flex !important;
+  align-items: center !important;
+  background: #ffffff !important;
+  border: 2px solid #e1e5e9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  padding: 8px !important;
+  max-width: 600px !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+#quickask-input {
+  flex: 1 !important;
+  border: none !important;
+  outline: none !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+  background: transparent !important;
+  color: #333333 !important;
+  border-radius: 6px !important;
+}
+
+#quickask-input::placeholder {
+  color: #999999 !important;
+}
+
+#quickask-submit,
+#quickask-close {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  color: #666666 !important;
+  transition: all 0.2s ease !important;
+  margin-left: 4px !important;
+}
+
+#quickask-submit:hover,
+#quickask-close:hover {
+  background: #f5f5f5 !important;
+  color: #333333 !important;
+}
+
+#quickask-submit:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+.quickask-spinning {
+  animation: quickask-spin 1s linear infinite !important;
+}
+
+@keyframes quickask-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#quickask-answer-bubble {
+  background: #ffffff !important;
+  border: 1px solid #e1e5e9 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  margin-top: 8px !important;
+  max-height: 40vh !important;
+  overflow-y: auto !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.quickask-answer-content {
+  position: relative !important;
+  padding: 16px !important;
+}
+
+.quickask-answer-text {
+  color: #333333 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  margin: 0 !important;
+  padding-right: 32px !important;
+}
+
+.quickask-answer-close {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  color: #999999 !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.quickask-answer-close:hover {
+  background: #f5f5f5 !important;
+  color: #333333 !important;
+}
+
+.quickask-error-toast {
+  background: #ff4757 !important;
+  color: #ffffff !important;
+  padding: 12px 16px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+  box-shadow: 0 4px 16px rgba(255, 71, 87, 0.3) !important;
+  max-width: 400px !important;
+  text-align: center !important;
+  animation: quickask-slide-in 0.3s ease-out !important;
+}
+
+@keyframes quickask-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #quickask-input-bar {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+  }
+  
+  #quickask-input {
+    color: #e2e8f0 !important;
+  }
+  
+  #quickask-input::placeholder {
+    color: #a0aec0 !important;
+  }
+  
+  #quickask-submit,
+  #quickask-close {
+    color: #a0aec0 !important;
+  }
+  
+  #quickask-submit:hover,
+  #quickask-close:hover {
+    background: #4a5568 !important;
+    color: #e2e8f0 !important;
+  }
+  
+  #quickask-answer-bubble {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+  }
+  
+  .quickask-answer-text {
+    color: #e2e8f0 !important;
+  }
+  
+  .quickask-answer-close {
+    color: #a0aec0 !important;
+  }
+  
+  .quickask-answer-close:hover {
+    background: #4a5568 !important;
+    color: #e2e8f0 !important;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  #quickask-container {
+    left: 10px !important;
+    right: 10px !important;
+    transform: none !important;
+    width: calc(100vw - 20px) !important;
+    max-width: none !important;
+  }
+  
+  #quickask-input {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  #quickask-input-bar {
+    border-width: 3px !important;
+  }
+  
+  #quickask-submit,
+  #quickask-close {
+    border: 1px solid currentColor !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .quickask-spinning {
+    animation: none !important;
+  }
+  
+  .quickask-error-toast {
+    animation: none !important;
+  }
+  
+  #quickask-submit,
+  #quickask-close,
+  .quickask-answer-close {
+    transition: none !important;
+  }
+}
