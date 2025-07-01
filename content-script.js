@@ -32,6 +32,10 @@ class QuickAskAI {
     this.container.id = 'quickask-container';
     this.container.style.display = 'none';
 
+    // Create a stack container for pill and input bar
+    this.barStack = document.createElement('div');
+    this.barStack.className = 'quickask-bar-stack';
+
     // Create input bar
     this.inputBar = document.createElement('div');
     this.inputBar.id = 'quickask-input-bar';
@@ -40,7 +44,6 @@ class QuickAskAI {
         <input 
           type="text" 
           id="quickask-input" 
-          placeholder="Ask anything about this webpage..."
           aria-label="Ask a question about this webpage"
           maxlength="500"
         />
@@ -49,12 +52,6 @@ class QuickAskAI {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="22" y1="2" x2="11" y2="13"></line>
           <polygon points="22,2 15,22 11,13 2,9"></polygon>
-        </svg>
-      </button>
-      <button id="quickask-close" aria-label="Close QuickAsk">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
     `;
@@ -80,11 +77,9 @@ class QuickAskAI {
         </svg>
       </button>
     `;
-    // Insert URL attachment as a child of the input wrapper
-    const inputWrapper = this.inputBar.querySelector('.quickask-input-wrapper');
-    inputWrapper.appendChild(this.urlAttachment);
-    // Add to container
-    this.container.appendChild(this.inputBar);
+    this.barStack.appendChild(this.urlAttachment);
+    this.barStack.appendChild(this.inputBar);
+    this.container.appendChild(this.barStack);
     this.container.appendChild(this.answerBubble);
 
     // Add to page
@@ -97,7 +92,6 @@ class QuickAskAI {
   setupEventListeners() {
     const input = this.container.querySelector('#quickask-input');
     const submitBtn = this.container.querySelector('#quickask-submit');
-    const closeBtn = this.container.querySelector('#quickask-close');
 
     // Submit on Enter key, close on Escape
     input.addEventListener('keydown', (e) => {
@@ -105,19 +99,11 @@ class QuickAskAI {
         e.preventDefault();
         this.submitQuestion();
       }
-      if (e.key === 'Escape') {
-        this.hideInput();
-      }
     });
 
     // Submit on button click
     submitBtn.addEventListener('click', () => {
       this.submitQuestion();
-    });
-
-    // Close on close button
-    closeBtn.addEventListener('click', () => {
-      this.hideInput();
     });
 
     // Close on outside click
@@ -137,7 +123,7 @@ class QuickAskAI {
     removeUrlBtn.addEventListener('click', (e) => {
       e.preventDefault();
       this.urlAttached = false;
-      this.urlAttachment.style.display = 'none';
+      this.urlAttachment.classList.add('hidden');
     });
   }
 
@@ -155,7 +141,7 @@ class QuickAskAI {
     this.isVisible = true;
     // Always reattach URL by default when input is shown
     this.urlAttached = true;
-    this.urlAttachment.style.display = 'flex';
+    this.urlAttachment.classList.remove('hidden');
     // Update chip title in case document.title changed
     const chipText = this.urlAttachment.querySelector('#quickask-title-chip-text');
     if (chipText) {

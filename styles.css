@@ -12,17 +12,15 @@
 }
 
 #quickask-input-bar {
-  display: flex !important;
-  align-items: flex-start !important;
-  background: #ffffff !important;
-  border: 2px solid #e1e5e9 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
-  padding: 8px !important;
-  max-width: 600px !important;
+  background: #232e43 !important;
+  border: none !important;
+  border-radius: 24px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10) !important;
+  padding: 0 20px !important;
   min-height: 48px !important;
-  box-sizing: border-box !important;
-  backdrop-filter: blur(10px) !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .quickask-input-wrapper {
@@ -69,19 +67,23 @@
 }
 
 #quickask-input {
-  flex: 1 !important;
+  color: #e2e8f0 !important;
+  font-size: 1.25rem !important;
+  background: transparent !important;
   border: none !important;
   outline: none !important;
-  padding: 8px 12px !important;
-  font-size: 14px !important;
-  font-family: inherit !important;
-  background: transparent !important;
-  color: #333333 !important;
-  border-radius: 6px !important;
+  flex: 1 !important;
+  padding: 12px 0 !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  align-items: center !important;
+  display: flex !important;
 }
 
 #quickask-input::placeholder {
-  color: #999999 !important;
+  color: #a0aec0 !important;
+  opacity: 1 !important;
+  font-size: 1rem !important;
 }
 
 #quickask-input:disabled {
@@ -95,29 +97,31 @@
 
 #quickask-submit,
 #quickask-close {
+  color: #cbd5e1 !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 2rem !important;
+  margin-left: 16px !important;
+  cursor: pointer !important;
+  width: 40px !important;
+  height: 40px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 32px !important;
-  height: 32px !important;
-  border: none !important;
-  background: transparent !important;
-  border-radius: 6px !important;
-  cursor: pointer !important;
-  color: #666666 !important;
-  transition: all 0.2s ease !important;
-  margin-left: 4px !important;
-}
-
-#quickask-submit:hover,
-#quickask-close:hover {
-  background: #f5f5f5 !important;
-  color: #333333 !important;
+  border-radius: 50% !important;
+  transition: background 0.2s !important;
+  padding: 0 !important;
 }
 
 #quickask-submit:disabled {
   opacity: 0.6 !important;
   cursor: not-allowed !important;
+}
+
+#quickask-submit:hover,
+#quickask-close:hover {
+  background: #374151 !important;
+  color: #e2e8f0 !important;
 }
 
 .quickask-spinning {
@@ -346,15 +350,27 @@
   }
 }
 
+/* Add new stack container for bar and pill */
+.quickask-bar-stack {
+  position: relative;
+  width: 100%;
+  min-height: 56px; /* 32px pill + 4px gap + 48px bar, overlap a bit for compactness */
+  margin-bottom: 8px;
+}
+
 #quickask-url-attachment {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 0;
+  left: 0;
+  margin-bottom: 4px;
+  margin-left: 8px;
+  z-index: 11;
+  transition: opacity 0.2s;
+  /* Restore pill visuals */
   background: rgba(60,60,60,0.95);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   padding: 0 8px 0 12px;
-  z-index: 10;
   display: flex;
   align-items: center;
   height: 32px;
@@ -364,6 +380,19 @@
   color: #fff;
   line-height: 32px;
   cursor: default;
+}
+
+#quickask-url-attachment.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+#quickask-input-bar {
+  position: absolute;
+  left: 0;
+  top: 28px; /* pill height + small gap */
+  width: 100%;
 }
 
 #quickask-url-text {
