@@ -5,6 +5,8 @@ class QuickAskAI {
     this.inputBar = null;
     this.answerBubble = null;
     this.isLoading = false;
+    this.urlAttached = true;
+    this.currentUrl = window.location.href;
     
     this.init();
   }
@@ -42,11 +44,6 @@ class QuickAskAI {
           aria-label="Ask a question about this webpage"
           maxlength="500"
         />
-        <div class="quickask-quick-suggestions" id="quickask-suggestions" style="display: none;">
-          <button class="quickask-suggestion-btn" data-question="What is this page about?">What is this page about?</button>
-          <button class="quickask-suggestion-btn" data-question="Summarize the main points">Summarize the main points</button>
-          <button class="quickask-suggestion-btn" data-question="What are the key takeaways?">What are the key takeaways?</button>
-        </div>
       </div>
       <button id="quickask-submit" aria-label="Submit question">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -67,6 +64,25 @@ class QuickAskAI {
     this.answerBubble.id = 'quickask-answer-bubble';
     this.answerBubble.style.display = 'none';
 
+    // Add URL attachment UI
+    // Get the page title and truncate if needed
+    const pageTitle = document.title.length > 32 ? document.title.slice(0, 29) + '…' : document.title;
+    this.urlAttachment = document.createElement('div');
+    this.urlAttachment.id = 'quickask-url-attachment';
+    this.urlAttachment.innerHTML = `
+      <span id="quickask-title-chip-text" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;display:inline-block;vertical-align:middle;">
+        ${pageTitle}
+      </span>
+      <button id="quickask-remove-url" aria-label="Remove" style="all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-left:4px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    `;
+    // Insert URL attachment as a child of the input wrapper
+    const inputWrapper = this.inputBar.querySelector('.quickask-input-wrapper');
+    inputWrapper.appendChild(this.urlAttachment);
     // Add to container
     this.container.appendChild(this.inputBar);
     this.container.appendChild(this.answerBubble);
@@ -82,7 +98,6 @@ class QuickAskAI {
     const input = this.container.querySelector('#quickask-input');
     const submitBtn = this.container.querySelector('#quickask-submit');
     const closeBtn = this.container.querySelector('#quickask-close');
-    const suggestions = this.container.querySelector('#quickask-suggestions');
 
     // Submit on Enter key, close on Escape
     input.addEventListener('keydown', (e) => {
@@ -117,29 +132,12 @@ class QuickAskAI {
       e.stopPropagation();
     });
 
-    // Handle suggestion button clicks
-    suggestions.addEventListener('click', (e) => {
-      if (e.target.classList.contains('quickask-suggestion-btn')) {
-        const question = e.target.getAttribute('data-question');
-        input.value = question;
-        suggestions.style.display = 'none';
-        this.submitQuestion();
-      }
-    });
-
-    // Show/hide suggestions on focus/blur
-    input.addEventListener('focus', () => {
-      if (!input.value.trim()) {
-        suggestions.style.display = 'block';
-      }
-    });
-
-    input.addEventListener('input', () => {
-      if (input.value.trim()) {
-        suggestions.style.display = 'none';
-      } else {
-        suggestions.style.display = 'block';
-      }
+    // Remove URL attachment on cross click
+    const removeUrlBtn = this.urlAttachment.querySelector('#quickask-remove-url');
+    removeUrlBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.urlAttached = false;
+      this.urlAttachment.style.display = 'none';
     });
   }
 
@@ -155,7 +153,15 @@ class QuickAskAI {
     this.container.style.display = 'block';
     this.answerBubble.style.display = 'none';
     this.isVisible = true;
-    
+    // Always reattach URL by default when input is shown
+    this.urlAttached = true;
+    this.urlAttachment.style.display = 'flex';
+    // Update chip title in case document.title changed
+    const chipText = this.urlAttachment.querySelector('#quickask-title-chip-text');
+    if (chipText) {
+      const pageTitle = document.title.length > 32 ? document.title.slice(0, 29) + '…' : document.title;
+      chipText.textContent = pageTitle;
+    }
     // Focus the input
     const input = this.container.querySelector('#quickask-input');
     input.focus();
@@ -204,25 +210,22 @@ class QuickAskAI {
     this.isLoading = true;
     this.showLoading();
 
-    console.log('Submitting question:', question, 'for URL:', window.location.href);
+    console.log('Submitting question:', question, 'for URL:', this.currentUrl);
 
     try {
-      // Get current URL
-      const currentUrl = window.location.href;
-
-      // Send message to service worker with timeout handling
+      // Only send URL if attached
+      const urlToSend = this.urlAttached ? this.currentUrl : undefined;
+      const message = {
+        action: 'askQuestion',
+        question: question
+      };
+      if (urlToSend) message.url = urlToSend;
       const response = await new Promise((resolve, reject) => {
         const timeout = setTimeout(() => {
           reject(new Error('Request timeout - service worker not responding'));
-        }, 30000); // 30 second timeout
-
-        chrome.runtime.sendMessage({
-          action: 'askQuestion',
-          question: question,
-          url: currentUrl
-        }, (response) => {
+        }, 30000);
+        chrome.runtime.sendMessage(message, (response) => {
           clearTimeout(timeout);
-          
           if (chrome.runtime.lastError) {
             reject(new Error(chrome.runtime.lastError.message));
           } else if (!response) {

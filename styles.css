@@ -345,3 +345,56 @@
     transition: none !important;
   }
 }
+
+#quickask-url-attachment {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(60,60,60,0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0 8px 0 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  min-width: 60px;
+  max-width: 210px;
+  font-size: 14px;
+  color: #fff;
+  line-height: 32px;
+  cursor: default;
+}
+
+#quickask-url-text {
+  background: #f3f3f3;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  color: #333;
+}
+
+#quickask-remove-url {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
+  vertical-align: middle;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+#quickask-remove-url svg {
+  stroke: #888;
+  transition: stroke 0.2s;
+}
+
+#quickask-remove-url:hover svg {
+  stroke: #d00;
+}
