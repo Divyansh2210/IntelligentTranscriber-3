@@ -6,11 +6,13 @@ A powerful Chrome extension that lets you ask questions about any webpage using 
 
 - 🚀 **Instant Access**: Press `Ctrl+Shift+Space` on any webpage
 - 🤖 **AI-Powered**: Uses Google Gemini AI with web browsing capabilities
-- 💡 **Smart Suggestions**: Quick buttons for common questions
 - 📋 **Copy Answers**: One-click copy to clipboard
-- 💬 **Follow-up Questions**: Easy conversation flow
-- 🎨 **Beautiful UI**: Clean, modern interface with dark mode support
+- 💬 **Follow-up Questions**: Continue the conversation with a single click
+- 🏷️ **URL Attachment Pill**: Shows the current page title; remove it to ask general questions
+- 🎨 **Beautiful, Accessible UI**: Clean, modern interface with dark mode, high contrast, and reduced motion support
+- 📱 **Responsive Design**: Works great on all screen sizes
 - ⚡ **Fast & Lightweight**: Minimal footprint, maximum performance
+- 🛡️ **Privacy First**: No data storage; all processing is local
 
 ## Installation
 
@@ -42,8 +44,9 @@ A powerful Chrome extension that lets you ask questions about any webpage using 
 
 1. **Activate**: Navigate to any webpage and press `Ctrl+Shift+Space` (or `Cmd+Shift+Space` on Mac)
 2. **Ask Questions**: Type your question or click a suggestion button
-3. **Get Answers**: The AI will browse the webpage and provide contextual answers
-4. **Take Actions**: Copy answers, ask follow-ups, or close the interface
+3. **URL Attachment Pill**: By default, your question is about the current page (title shown in a pill). Click the "×" on the pill to remove it and ask a general question.
+4. **Get Answers**: The AI will browse the webpage and provide contextual answers
+5. **Take Actions**: Copy answers, ask follow-ups, or close the interface
 
 ## Example Questions
 
@@ -65,12 +68,17 @@ A powerful Chrome extension that lets you ask questions about any webpage using 
 ### API Integration
 - **Google Gemini 2.5 Flash**: Fast, accurate AI responses
 - **Web Browsing**: AI directly accesses webpage content
-- **Real-time**: Instant responses with loading indicators
+- **Real-time**: Instant responses with loading indicators and error toasts
 
 ### Privacy & Security
 - **No Data Storage**: Questions and answers are not saved
 - **Secure API**: All communications use HTTPS
 - **Local Processing**: UI runs entirely in your browser
+
+### Accessibility & UX
+- **Dark Mode, High Contrast, Reduced Motion**: Adapts to your system preferences
+- **Keyboard Navigation**: Fully accessible via keyboard
+- **ARIA Labels**: Screen reader friendly
 
 ## File Structure
 
@@ -79,9 +87,9 @@ quickask-ai/
 ├── manifest.json          # Extension configuration
 ├── content-script.js      # UI and user interaction logic
 ├── service-worker.js      # Background API handling
-├── styles.css            # Extension styling
-├── test-page.html        # Testing page
-└── README.md            # This file
+├── styles.css             # Extension styling
+├── test-page.html         # Testing page
+└── README.md              # This file
 ```
 
 ## Development
