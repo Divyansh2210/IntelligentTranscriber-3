@@ -6,7 +6,6 @@ A powerful Chrome extension that lets you ask questions about any webpage using 
 
 - 🚀 **Instant Access**: Press `Ctrl+Shift+Space` on any webpage
 - 🤖 **AI-Powered**: Uses Google Gemini AI with web browsing capabilities
-- 📋 **Copy Answers**: One-click copy to clipboard
 - 💬 **Follow-up Questions**: Continue the conversation with a single click
 - 🏷️ **URL Attachment Pill**: Shows the current page title; remove it to ask general questions
 - 🎨 **Beautiful, Accessible UI**: Clean, modern interface with dark mode, high contrast, and reduced motion support
